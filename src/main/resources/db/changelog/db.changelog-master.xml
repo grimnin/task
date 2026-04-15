@@ -42,5 +42,15 @@
             <column name="attr_value" type="VARCHAR(1000)"/>
         </createTable>
     </changeSet>
-
+    <changeSet id="2" author="support_candidate">
+        <insert tableName="producers">
+            <column name="name" value="Samsung"/>
+        </insert>
+        <insert tableName="producers">
+            <column name="name" value="Apple"/>
+        </insert>
+        <insert tableName="producers">
+            <column name="name" value="Sony"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

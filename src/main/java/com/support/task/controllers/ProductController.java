@@ -18,11 +18,6 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping
-    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
-        return ResponseEntity.ok(productService.getAllProducts());
-    }
-
     @PostMapping
     public ResponseEntity<ProductResponseDTO> createProduct(@Valid @RequestBody ProductRequestDTO request) {
         ProductResponseDTO createdProduct = productService.createProduct(request);
@@ -41,5 +36,16 @@ public class ProductController {
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ProductResponseDTO>> getProducts(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Long producerId) {
+
+        if (name != null || producerId != null) {
+            return ResponseEntity.ok(productService.searchProducts(name, producerId));
+        }
+        return ResponseEntity.ok(productService.getAllProducts());
     }
 }

@@ -76,4 +76,31 @@ public class ProductService {
         product.setProducer(producer);
         product.setAttributes(request.attributes());
     }
+    @Transactional(readOnly = true)
+    public List<ProductResponseDTO> searchByName(String name) {
+        return productRepository.findByNameContainingIgnoreCase(name).stream()
+                .map(productMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProductResponseDTO> getProductsByProducer(Long producerId) {
+        return productRepository.findByProducerId(producerId).stream()
+                .map(productMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProductResponseDTO> searchProducts(String name, Long producerId) {
+        if (name != null && !name.isBlank()) {
+            return productRepository.findByNameContainingIgnoreCase(name).stream()
+                    .map(productMapper::toResponseDto)
+                    .toList();
+        } else if (producerId != null) {
+            return productRepository.findByProducerId(producerId).stream()
+                    .map(productMapper::toResponseDto)
+                    .toList();
+        }
+        return getAllProducts();
+    }
 }
