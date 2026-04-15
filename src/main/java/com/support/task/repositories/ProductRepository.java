@@ -11,5 +11,5 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByNameContainingIgnoreCase(String name);
     List<Product> findByProducerId(Long producerId);
-
+    boolean existsByProducerId(Long producerId);
 }
