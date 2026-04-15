@@ -16,5 +16,5 @@ public record ProductRequestDTO(
         @NotNull(message = "Producer ID is required")
         Long producerId,
 
-        Map<String, String> attributes // Klient przesyła proste pary klucz-wartość
+        Map<String, String> attributes
 ) {}
