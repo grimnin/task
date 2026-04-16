@@ -4,7 +4,7 @@ A professional-grade backend system designed to manage a complex product catalog
 
 ## 🛠 Tech Stack
 
-* **Java 21** (OpenJDK)
+* **Java 21** (OpenJDK - Temurin)
 * **Spring Boot 3.3.5**
 * **Spring Data JPA / Hibernate**
 * **H2 Database** (File-based storage)
@@ -12,8 +12,15 @@ A professional-grade backend system designed to manage a complex product catalog
 * **Lombok** (Boilerplate reduction)
 * **Maven** (Dependency management)
 
+### 🧪 Testing Stack
+* **JUnit 5**: The primary framework for writing and running tests.
+* **Mockito**: Used for mocking dependencies in unit tests to isolate business logic.
+* **MockMvc**: Provides support for testing Spring MVC controllers by performing "fake" HTTP requests.
+* **AssertJ**: Used for fluent and readable assertions in test cases.
+
 ### 💡 Tech Stack Reasoning
-* **Spring Boot 3.3.5**: I chose one of the latest stable versions of Spring Boot 3 to take full advantage of **Java 21** features (including Virtual Threads compatibility and better performance). It also ensures the highest level of security and support for modern libraries like Jakarta Persistence.
+* **Spring Boot 3.3.5**: I chose one of the latest stable versions of Spring Boot 3 to minimize the risk of "dependency injection hell" and to leverage improved security, Jakarta EE 10 compatibility, and native support for Java 21 features.
+* **Java 21 (LTS)**: Utilized for its modern syntax, improved performance, and long-term support, ensuring the project is built on the current industry standard.
 
 ---
 
@@ -69,18 +76,27 @@ Standard CRUD operations to manage the list of available manufacturers.
 
 ## 🧪 Testing & Reliability
 
-* **Unit Tests**: Test core service logic and validation using Mockito.
-* **Integration Tests**: Verify the full flow from API to H2 Database.
-* **Data Isolation**: The `ProductIntegrationTest` uses a manual cleanup strategy in `@BeforeEach` to ensure that Liquibase seed data does not interfere with test results, ensuring 100% pass rate in any environment (including Windows Sandbox).
+* **Unit Tests**: Focus on service-layer logic, validation rules, and mapper accuracy using Mockito to isolate external dependencies.
+* **Integration Tests**: Verify the full end-to-end flow from the REST controller down to the H2 database.
+* **Data Isolation**: The `ProductIntegrationTest` uses a manual cleanup strategy in `@BeforeEach` to ensure that Liquibase seed data does not interfere with test results, ensuring a consistent green build in any environment (including Windows Sandbox).
 
 ---
 
-## ⚙️ Installation
+## ⚙️ Installation & Running
 
-1. Unzip the project.
-2. Run `./mvnw spring-boot:run` (or `mvnw.cmd` on Windows).
-3. The application will automatically create a `./data` folder for the database.
+This project uses **Maven Wrapper**, so you don't need Maven installed globally. **Java 21** is required.
+
+1. Unzip the project archive.
+2. Open a terminal (CMD/PowerShell) in the project root folder.
+3. Run the application:
+   - **Windows (PowerShell)**: `.\mvnw.cmd spring-boot:run`
+   - **Windows (CMD)**: `mvnw.cmd spring-boot:run`
+   - **Linux/Mac**: `./mvnw spring-boot:run`
+4. Wait for the `Started TaskApplication` log.
+5. Access the API via Swagger: `http://localhost:8080/swagger-ui/index.html`
+
+*Note: On the first run, the app will automatically create a `./data` folder for the H2 database and run Liquibase migrations.*
 
 ---
 ### Author
-[Kamil Dabrowski]
+**Kamil Dabrowski**
