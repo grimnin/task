@@ -4,7 +4,7 @@ A professional-grade backend system designed to manage a complex product catalog
 
 ## 🛠 Tech Stack
 
-* **Java 21** (OpenJDK - Temurin)
+* **Java 21**
 * **Spring Boot 3.3.5**
 * **Spring Data JPA / Hibernate**
 * **H2 Database** (File-based storage)
