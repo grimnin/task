@@ -141,7 +141,7 @@ curl -X 'PUT' \
   -H 'accept: */*'
 ```
 
-**5. Delete a Producer**
+**4. Delete a Producer**
 ```bash
 curl -X DELETE http://localhost:8080/api/producers/1
 ```
