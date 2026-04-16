@@ -76,6 +76,7 @@ public class ProductService {
         product.setProducer(producer);
         product.setAttributes(request.attributes());
     }
+
     @Transactional(readOnly = true)
     public List<ProductResponseDTO> searchByName(String name) {
         return productRepository.findByNameContainingIgnoreCase(name).stream()

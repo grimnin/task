@@ -25,7 +25,8 @@
             <column name="description" type="CLOB"/>
             <column name="price" type="DECIMAL(19, 2)"/>
             <column name="producer_id" type="BIGINT">
-                <constraints nullable="false" foreignKeyName="fk_product_producer" referencedTableName="producers" referencedColumnNames="id"/>
+                <constraints nullable="false" foreignKeyName="fk_product_producer" referencedTableName="producers"
+                             referencedColumnNames="id"/>
             </column>
         </createTable>
 
@@ -34,7 +35,8 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="product_id" type="BIGINT">
-                <constraints nullable="false" foreignKeyName="fk_attr_product" referencedTableName="products" referencedColumnNames="id"/>
+                <constraints nullable="false" foreignKeyName="fk_attr_product" referencedTableName="products"
+                             referencedColumnNames="id"/>
             </column>
             <column name="attr_key" type="VARCHAR(100)">
                 <constraints nullable="false"/>
@@ -51,6 +53,56 @@
         </insert>
         <insert tableName="producers">
             <column name="name" value="Sony"/>
+        </insert>
+    </changeSet>
+    <changeSet id="3" author="support_candidate">
+        <insert tableName="products">
+            <column name="id" value="1"/>
+            <column name="name" value="Samsung Galaxy S24"/>
+            <column name="description" value="Najnowszy flagowiec z funkcjami AI."/>
+            <column name="price" value="4599.00"/>
+            <column name="producer_id" value="1"/>
+        </insert>
+        <insert tableName="product_attributes">
+            <column name="product_id" value="1"/>
+            <column name="attr_key" value="Color"/>
+            <column name="attr_value" value="Onyx Black"/>
+        </insert>
+        <insert tableName="product_attributes">
+            <column name="product_id" value="1"/>
+            <column name="attr_key" value="RAM"/>
+            <column name="attr_value" value="12GB"/>
+        </insert>
+
+        <insert tableName="products">
+            <column name="id" value="2"/>
+            <column name="name" value="iPhone 15"/>
+            <column name="description" value="Smartfon z dynamiczną wyspą."/>
+            <column name="price" value="4200.00"/>
+            <column name="producer_id" value="2"/>
+        </insert>
+        <insert tableName="product_attributes">
+            <column name="product_id" value="2"/>
+            <column name="attr_key" value="Color"/>
+            <column name="attr_value" value="Blue"/>
+        </insert>
+        <insert tableName="product_attributes">
+            <column name="product_id" value="2"/>
+            <column name="attr_key" value="Port"/>
+            <column name="attr_value" value="USB-C"/>
+        </insert>
+
+        <insert tableName="products">
+            <column name="id" value="3"/>
+            <column name="name" value="Sony WH-1000XM5"/>
+            <column name="description" value="Słuchawki z najlepszą redukcją szumu."/>
+            <column name="price" value="1499.00"/>
+            <column name="producer_id" value="3"/>
+        </insert>
+        <insert tableName="product_attributes">
+            <column name="product_id" value="3"/>
+            <column name="attr_key" value="Battery Life"/>
+            <column name="attr_value" value="30h"/>
         </insert>
     </changeSet>
 </databaseChangeLog>

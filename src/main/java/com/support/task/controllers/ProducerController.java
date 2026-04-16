@@ -23,17 +23,28 @@ public class ProducerController {
     }
 
     @PostMapping
-    public ResponseEntity<Producer> create(@RequestBody Producer producer) {
-        // Prosta walidacja: nazwa producenta musi być unikalna
-        if (producerRepository.findByNameIgnoreCase(producer.getName()).isPresent()) {
-            throw new RuntimeException("Producer with this name already exists");
+    public ResponseEntity<Producer> createProducer(@RequestParam String name) {
+        if (name == null || name.isBlank()) {
+            throw new RuntimeException("Producer name cannot be empty");
         }
-        return new ResponseEntity<>(producerRepository.save(producer), HttpStatus.CREATED);
+
+        Producer producer = new Producer();
+        producer.setName(name);
+        return new ResponseEntity<>(producerService.createProducer(producer), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Producer> updateProducer(@PathVariable Long id, @RequestBody Producer producer) {
-        return ResponseEntity.ok(producerService.updateProducer(id, producer));
+    public ResponseEntity<Producer> updateProducer(
+            @PathVariable Long id,
+            @RequestParam String name
+    ) {
+        if (name == null || name.isBlank()) {
+            throw new RuntimeException("New producer name cannot be empty");
+        }
+        Producer details = new Producer();
+        details.setName(name);
+
+        return ResponseEntity.ok(producerService.updateProducer(id, details));
     }
 
     @DeleteMapping("/{id}")

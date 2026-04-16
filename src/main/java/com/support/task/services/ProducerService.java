@@ -6,6 +6,7 @@ import com.support.task.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -30,6 +31,7 @@ public class ProducerService {
 
         return producerRepository.save(producer);
     }
+
     @Transactional
     public Producer updateProducer(Long id, Producer producerDetails) {
         Producer producer = producerRepository.findById(id)
