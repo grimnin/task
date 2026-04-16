@@ -74,7 +74,9 @@ curl -G http://localhost:8080/api/products \
 
 **3. Get Product by ID**
 ```bash
-curl -X GET http://localhost:8080/api/products/1
+curl -X 'GET' \
+  'http://localhost:8080/api/products?producerId=1' \
+  -H 'accept: */*'
 ```
 
 **4. Create a Product**
@@ -124,12 +126,7 @@ curl -X DELETE http://localhost:8080/api/products/1
 curl -X GET http://localhost:8080/api/producers
 ```
 
-**2. Get Producer by ID**
-```bash
-curl -X GET http://localhost:8080/api/producers/1
-```
-
-**3. Create a Producer**
+**2. Create a Producer**
 ```bash
 curl -X POST http://localhost:8080/api/producers \
 -H "Content-Type: application/json" \
@@ -138,13 +135,11 @@ curl -X POST http://localhost:8080/api/producers \
 }'
 ```
 
-**4. Update a Producer**
+**3. Update a Producer**
 ```bash
-curl -X PUT http://localhost:8080/api/producers/1 \
--H "Content-Type: application/json" \
--d '{
-  "name": "New Tech Corporation"
-}'
+curl -X 'PUT' \
+  'http://localhost:8080/api/producers/51?name=zmiana' \
+  -H 'accept: */*'
 ```
 
 **5. Delete a Producer**
