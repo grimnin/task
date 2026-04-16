@@ -4,7 +4,7 @@ A professional-grade backend system designed to manage a complex product catalog
 
 ## 🛠 Tech Stack
 
-* **Java 21**
+* **Java 21** (OpenJDK - Temurin)
 * **Spring Boot 3.3.5**
 * **Spring Data JPA / Hibernate**
 * **H2 Database** (File-based storage)
@@ -54,10 +54,30 @@ The system uses a relational approach optimized for high-flexibility data:
 
 ## 🚀 API Endpoints & Usage (cURL Templates)
 
-You can use the **Swagger UI** or import these **cURL** commands into **Postman** (*Import -> Raw text*).
+You can use the **Swagger UI** or import these **cURL** commands directly into **Postman** (*Import -> Raw text*).
 
-### 1. Create a Product
-**POST** `/api/products`
+### 📦 PRODUCTS ENDPOINTS
+
+**1. Get All Products (Default)**
+Returns all products available in the database.
+```bash
+curl -X GET http://localhost:8080/api/products
+```
+
+**2. Get Products with Filters**
+Supports optional `name` (partial, case-insensitive) and `producerId` query parameters.
+```bash
+curl -G http://localhost:8080/api/products \
+--data-urlencode "name=smart" \
+--data-urlencode "producerId=1"
+```
+
+**3. Get Product by ID**
+```bash
+curl -X GET http://localhost:8080/api/products/1
+```
+
+**4. Create a Product**
 ```bash
 curl -X POST http://localhost:8080/api/products \
 -H "Content-Type: application/json" \
@@ -74,8 +94,7 @@ curl -X POST http://localhost:8080/api/products \
 }'
 ```
 
-### 2. Update a Product (Full Update)
-**PUT** `/api/products/{id}`
+**5. Update a Product (Full Update)**
 ```bash
 curl -X PUT http://localhost:8080/api/products/1 \
 -H "Content-Type: application/json" \
@@ -91,17 +110,46 @@ curl -X PUT http://localhost:8080/api/products/1 \
 }'
 ```
 
-### 3. Search & Filtering
-**GET** `/api/products`
-Supports `name` (partial, case-insensitive) and `producerId`.
-```bash
-curl -G http://localhost:8080/api/products
-```
-
-### 4. Delete a Product
-**DELETE** `/api/products/{id}`
+**6. Delete a Product**
 ```bash
 curl -X DELETE http://localhost:8080/api/products/1
+```
+
+---
+
+### 🏭 PRODUCERS ENDPOINTS
+
+**1. Get All Producers**
+```bash
+curl -X GET http://localhost:8080/api/producers
+```
+
+**2. Get Producer by ID**
+```bash
+curl -X GET http://localhost:8080/api/producers/1
+```
+
+**3. Create a Producer**
+```bash
+curl -X POST http://localhost:8080/api/producers \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "New Tech Corp"
+}'
+```
+
+**4. Update a Producer**
+```bash
+curl -X PUT http://localhost:8080/api/producers/1 \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "New Tech Corporation"
+}'
+```
+
+**5. Delete a Producer**
+```bash
+curl -X DELETE http://localhost:8080/api/producers/1
 ```
 
 ---
@@ -110,7 +158,7 @@ curl -X DELETE http://localhost:8080/api/products/1
 
 * **Unit Tests**: Focus on service-layer logic, validation rules, and mapper accuracy.
 * **Integration Tests**: Verify the full end-to-end flow from the REST controller down to the H2 database.
-* **Data Isolation**: The `ProductIntegrationTest` uses a manual cleanup strategy in `@BeforeEach` to ensure that Liquibase seed data does not interfere with test results, ensuring a consistent build in any environment (including Windows Sandbox).
+* **Data Isolation**: The `ProductIntegrationTest` uses a manual cleanup strategy in `@BeforeEach` to ensure that Liquibase seed data does not interfere with test results, ensuring a consistent build in any environment.
 
 ---
 
@@ -128,6 +176,15 @@ This project uses **Maven Wrapper**, so you don't need Maven installed globally.
 5. Access the API via Swagger: `http://localhost:8080/swagger-ui/index.html`
 
 *Note: On the first run, the app will automatically create a `./data` folder for the H2 database and run Liquibase migrations.*
+
+### ⚠️ Troubleshooting (Windows PowerShell)
+If Maven Wrapper throws an `UnsupportedClassVersionError` or complains about `JAVA_HOME`, run this in your PowerShell to force Java 21 for the current session (adjust the path to match your installation):
+
+```powershell
+$env:JAVA_HOME = "C:\Program Files\Eclipse Adoptium\jdk-21.0.10.7-hotspot"
+$env:Path = "$env:JAVA_HOME\bin;" + $env:Path
+.\mvnw.cmd clean spring-boot:run
+```
 
 ---
 ### Author
