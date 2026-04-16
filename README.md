@@ -95,9 +95,7 @@ curl -X PUT http://localhost:8080/api/products/1 \
 **GET** `/api/products`
 Supports `name` (partial, case-insensitive) and `producerId`.
 ```bash
-curl -G http://localhost:8080/api/products \
---data-urlencode "name=smart" \
---data-urlencode "producerId=1"
+curl -G http://localhost:8080/api/products
 ```
 
 ### 4. Delete a Product

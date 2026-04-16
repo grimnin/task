@@ -105,4 +105,11 @@
             <column name="attr_value" value="30h"/>
         </insert>
     </changeSet>
+    <changeSet id="4" author="support_candidate">
+        <sql>
+            ALTER TABLE products ALTER COLUMN id RESTART WITH 50;
+            ALTER TABLE producers ALTER COLUMN id RESTART WITH 50;
+            ALTER TABLE product_attributes ALTER COLUMN id RESTART WITH 50;
+        </sql>
+    </changeSet>
 </databaseChangeLog>
