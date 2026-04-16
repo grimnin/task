@@ -13,14 +13,14 @@ A professional-grade backend system designed to manage a complex product catalog
 * **Maven** (Dependency management)
 
 ### 🧪 Testing Stack
-* **JUnit 5**: The primary framework for writing and running tests.
-* **Mockito**: Used for mocking dependencies in unit tests to isolate business logic.
-* **MockMvc**: Provides support for testing Spring MVC controllers by performing "fake" HTTP requests.
-* **AssertJ**: Used for fluent and readable assertions in test cases.
+* **JUnit 5**: Core framework for writing and running tests.
+* **Mockito**: Used for mocking dependencies to isolate business logic during unit testing.
+* **MockMvc**: Provides support for testing Spring MVC controllers by performing simulated HTTP requests.
+* **AssertJ**: Used for fluent and highly readable assertions.
 
 ### 💡 Tech Stack Reasoning
 * **Spring Boot 3.3.5**: I chose one of the latest stable versions of Spring Boot 3 to minimize the risk of "dependency injection hell" and to leverage improved security, Jakarta EE 10 compatibility, and native support for Java 21 features.
-* **Java 21 (LTS)**: Utilized for its modern syntax, improved performance, and long-term support, ensuring the project is built on the current industry standard.
+* **Java 21 (LTS)**: Utilized for its modern syntax and efficiency, ensuring the project is built on the current industry standard for long-term support.
 
 ---
 
@@ -31,8 +31,8 @@ The project is fully documented using OpenAPI 3.0. You can test all endpoints di
 👉 **[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)**
 
 ### H2 Database Console
-To inspect the database state, use the built-in H2 Console:
-* **URL**: `http://localhost:8080/h2-console`
+To inspect the database state and run SQL queries:
+👉 **[http://localhost:8080/h2-console](http://localhost:8080/h2-console)**
 * **JDBC URL**: `jdbc:h2:file:./data/productdb`
 * **User**: `sa`
 * **Password**: (leave empty)
@@ -41,7 +41,7 @@ To inspect the database state, use the built-in H2 Console:
 
 ## 🗄 Database Structure & Logic
 
-The system uses a relational approach optimized for flexibility:
+The system uses a relational approach optimized for high-flexibility data:
 
 1. **Producers Table**: Stores manufacturer details (id, name).
 2. **Products Table**: Stores core product data (name, description, price) and a foreign key to the Producer.
@@ -52,33 +52,67 @@ The system uses a relational approach optimized for flexibility:
 
 ---
 
-## 🚀 How to use Endpoints
+## 🚀 API Endpoints & Usage (cURL Templates)
 
-You can use the **Swagger UI** or **Postman** to interact with the API.
+You can use the **Swagger UI** or import these **cURL** commands into **Postman** (*Import -> Raw text*).
 
 ### 1. Create a Product
 **POST** `/api/products`
-* **Payload**: Requires a `producerId` (ensure the producer exists first).
-* **Attributes**: Send as a JSON map: `"attributes": {"Color": "Black", "RAM": "12GB"}`.
+```bash
+curl -X POST http://localhost:8080/api/products \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "Smartphone X1",
+  "description": "Flagship model",
+  "price": 2999.99,
+  "producerId": 1,
+  "attributes": {
+    "Color": "Space Gray",
+    "Storage": "256GB",
+    "RAM": "12GB"
+  }
+}'
+```
 
-### 2. Search & Filtering
+### 2. Update a Product (Full Update)
+**PUT** `/api/products/{id}`
+```bash
+curl -X PUT http://localhost:8080/api/products/1 \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "Smartphone X1 Pro",
+  "description": "Updated flagship model",
+  "price": 3200.00,
+  "producerId": 1,
+  "attributes": {
+    "Color": "Deep Black",
+    "Storage": "512GB"
+  }
+}'
+```
+
+### 3. Search & Filtering
 **GET** `/api/products`
-The endpoint supports optional query parameters:
-* `name`: Partial, case-insensitive search (e.g., `?name=galaxy`).
-* `producerId`: Filters products by a specific manufacturer.
-* *Note: If no parameters are provided, it returns all products.*
+Supports `name` (partial, case-insensitive) and `producerId`.
+```bash
+curl -G http://localhost:8080/api/products \
+--data-urlencode "name=smart" \
+--data-urlencode "producerId=1"
+```
 
-### 3. Manage Producers
-**GET / POST / DELETE** `/api/producers`
-Standard CRUD operations to manage the list of available manufacturers.
+### 4. Delete a Product
+**DELETE** `/api/products/{id}`
+```bash
+curl -X DELETE http://localhost:8080/api/products/1
+```
 
 ---
 
 ## 🧪 Testing & Reliability
 
-* **Unit Tests**: Focus on service-layer logic, validation rules, and mapper accuracy using Mockito to isolate external dependencies.
+* **Unit Tests**: Focus on service-layer logic, validation rules, and mapper accuracy.
 * **Integration Tests**: Verify the full end-to-end flow from the REST controller down to the H2 database.
-* **Data Isolation**: The `ProductIntegrationTest` uses a manual cleanup strategy in `@BeforeEach` to ensure that Liquibase seed data does not interfere with test results, ensuring a consistent green build in any environment (including Windows Sandbox).
+* **Data Isolation**: The `ProductIntegrationTest` uses a manual cleanup strategy in `@BeforeEach` to ensure that Liquibase seed data does not interfere with test results, ensuring a consistent build in any environment (including Windows Sandbox).
 
 ---
 
