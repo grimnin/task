@@ -128,11 +128,10 @@ curl -X GET http://localhost:8080/api/producers
 
 **2. Create a Producer**
 ```bash
-curl -X POST http://localhost:8080/api/producers \
--H "Content-Type: application/json" \
--d '{
-  "name": "New Tech Corp"
-}'
+curl -X 'POST' \
+  'http://localhost:8080/api/producers?name=noweto' \
+  -H 'accept: */*' \
+  -d ''
 ```
 
 **3. Update a Producer**
